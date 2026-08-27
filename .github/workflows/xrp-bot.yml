@@ -1,0 +1,45 @@
+name: XRP Bot
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  run-bot:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run XRP bot
+        run: |
+          python main.py
+
+      - name: Save price history
+        run: |
+          git config user.name "xrp-bot"
+          git config user.email "xrp-bot@users.noreply.github.com"
+
+          git add data/price_history.csv
+
+          git diff --cached --quiet || git commit -m "Update XRP price history"
+
+          git push
