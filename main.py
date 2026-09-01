@@ -150,6 +150,21 @@ def savePrice(data, usd_aud):
 
 
 # -------------------------
+# STATUS
+# -------------------------
+
+def GetStatus():
+    days = get_days()
+    if days >= oneMonth:
+        SetStatus("🟢 Ready")
+    else: 
+        SetStatus("🟡 Collecting")
+    return Status
+
+def SetStatus(value):
+    status = value
+
+# -------------------------
 # PRINT OUTPUT
 # -------------------------
 
@@ -160,12 +175,12 @@ def printOutPut(data, xrp_aud):
     records = get_record_count()
 
     if days >= oneMonth:
-
-        status = "🟢 Ready"
+        SetStatus("🟢 Ready")
+        # status = "🟢 Ready"
 
     else:
-
-        status = "🟡 Collecting"
+        SetStatus("🟡 Collecting")
+        # status = "🟡 Collecting"
 
     print()
 
